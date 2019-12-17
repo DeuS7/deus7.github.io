@@ -7,11 +7,32 @@
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/media.css">
+	<link rel="stylesheet" href="libs/glide-3.4.1/glide.core.css">
 </head>
 <body>
-	Vi veri veniversum vivus Vici
+	<div class="glide">
+		<div class="glide__track" data-glide-el="track">
+			<ul class="glide__slides">
+				<li class="glide__slide">
+					<div class="container">
+						This is simple game
+					</div>
+				</li>
+				<li class="glide__slide">
+					<div class="container">
+						This is main element. Menu
+					</div>
+				</li>
+				<li class="glide__slide">
+					<div class="container">
+						This is the game with a bot
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 	<!-- MainScript -->
-	<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+	<script src="libs/glide-3.4.1/glide.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
 	<script src="js/main.js"></script>
 </body>

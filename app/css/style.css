@@ -13,7 +13,8 @@ body {
 
 #unknownYet {
   left: 0;
-  top: -100vh; }
+  top: -100vh;
+  background: white; }
 
 #hardGame {
   top: 0;
@@ -43,7 +44,7 @@ body {
   display: flex;
   justify-content: space-between; }
 
-.gameContainerBlock {
+.containerBlock {
   width: 50%;
   border: 1px solid red;
   display: flex;
@@ -78,11 +79,9 @@ body {
   justify-content: space-between;
   padding: 10px 100px; }
 
-.buttonInput {
-  display: none; }
-
 .videoInput {
-  position: relative; }
+  position: relative;
+  display: none; }
   .videoInput video {
     width: 100%;
     height: 100%;
@@ -97,7 +96,53 @@ body {
   border: 1px solid red;
   z-index: 101; }
 
+.gesturePrediction {
+  position: absolute;
+  top: 0;
+  left: 300px;
+  width: 200px;
+  height: 200px;
+  border: 1px solid red;
+  z-index: 110;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
 .gameInput {
   border: 1px solid red;
   width: 100%;
   height: 100%; }
+
+#unknownYet.container {
+  display: flex;
+  justify-content: space-between; }
+
+#unknownYet .containerBlock {
+  margin: 0 auto; }
+
+.title {
+  font-size: 25px;
+  border: 1px solid red;
+  position: absolute; }
+
+.title.topTitle {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%); }
+
+.title.leftTitle {
+  top: 50%;
+  left: 0;
+  transform: rotate(-90deg);
+  transform-origin: top left; }
+
+.title.rightTitle {
+  top: 50%;
+  right: 0;
+  transform: rotate(90deg);
+  transform-origin: top right; }
+
+.title.bottomTitle {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%); }

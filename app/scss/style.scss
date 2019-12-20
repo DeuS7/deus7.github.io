@@ -13,10 +13,12 @@ body {
 	flex-direction: column;
 	justify-content: center;
 }
-#unknownYet {
+#settings {
 	left: 0;
 	top: -100vh;
+	//top: 0;
 	background: white;
+	height: 50vh;
 } 
 #hardGame {
 	top: 0;
@@ -36,6 +38,16 @@ body {
 }
 #easyGame .foeContainer {
 	order: -1;
+}
+.foeContainer .gameplayField {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.foeContainer .foeChoice {
+	border: 1px solid red;
+	font-size: 250px;
+	user-select: none;
 }
 
 .container {
@@ -59,12 +71,36 @@ body {
 	align-items: center;
 	position: relative;
 }
+.separator {
+	width: 1px;
+	background: red;
+	position: relative;
+	left: -20px;
+}
 
 .gameplayField {
 	border: 1px solid red;
 	width: 500px;
 	height: 375px;
+	display: flex;
+	flex-direction: column;
 }
+.inputSelection {
+	display: flex;
+	justify-content: space-between;
+}
+.inputType {
+	width: 45%;
+	border: 1px solid red;
+	cursor: pointer;
+}
+.buttonInputType {
+
+}
+.webcamInputType {
+
+}
+
 .scoreBlock {
 	border: 1px solid red;
 	position: absolute;
@@ -93,7 +129,30 @@ body {
 ////////////Input
 
 .buttonInput {
+	display: flex;
+	justify-content: space-between;
+}
+.inputButton {
+	border: 1px solid red;
+	width: 33.3%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 90px;
+	cursor: pointer;
+	user-select: none;
+}
+.inputButton:hover {
+	font-size: 110px;
+}
+.inputRock {
 	
+}
+.inputPaper {
+
+} 
+.inputScissors {
+
 }
 
 .videoInput {
@@ -134,13 +193,13 @@ body {
 	height: 100%;
 }
 
-////////////Unknownyet
+////////////settings
 
-#unknownYet.container {
+#settings.container {
 	display: flex;
 	justify-content: space-between;
 }
-#unknownYet .containerBlock {
+#settings .containerBlock {
 	margin: 0 auto;
 }
 
@@ -173,4 +232,9 @@ body {
 	bottom: 0;
 	left: 50%;
 	transform: translate(-50%);
+}
+
+.activated {
+	left: 0 !important;
+	top: 0 !important;
 }

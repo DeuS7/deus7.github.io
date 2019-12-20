@@ -16,18 +16,20 @@
 			<div id="hardGameButton" class="button">hardGameButton</div>
 		</div>
 	</div>
-	<div class="container" id="unknownYet">
-		<div class="title topTitle">unknownYet</div>
+	<div class="container" id="settings">
+		<div class="title topTitle">settings</div>
 		<div class="containerBlock">
 			<div>There probably gonna be some stuff</div>
 		</div>
 	</div>
 	<div class="container gameContainer" id="easyGame">
-		<div class="title rightTitle">easy Game</div>
+		<div class="title leftTitle">hard Game</div>
 		<div class="containerBlock">
 			<div class="gameplayField">
 				<div class="buttonInput gameInput">
-					
+					<div class="inputButton inputRock">✊</div>
+					<div class="inputButton inputPaper">✋</div>
+					<div class="inputButton inputScissors">✌</div>
 				</div>
 				<div class="videoInput gameInput">
 					<video autoplay="true" class="videoElement">
@@ -43,7 +45,7 @@
 		</div>
 		<div class="containerBlock foeContainer">
 			<div class="gameplayField">
-				
+				<div class="foeChoice">✊</div>
 			</div>
 			<div class="scoreBlock">
 				0
@@ -55,8 +57,14 @@
 		<div class="title leftTitle">hard Game</div>
 		<div class="containerBlock">
 			<div class="gameplayField">
+				<div class="inputSelection">
+					<div class="inputType buttonInputType">Button</div>
+					<div class="inputType webcamInputType">Webcam</div>
+				</div>
 				<div class="buttonInput gameInput">
-					
+					<div class="inputButton inputRock">✊</div>
+					<div class="inputButton inputPaper">✋</div>
+					<div class="inputButton inputScissors">✌</div>
 				</div>
 				<div class="videoInput gameInput">
 					<video autoplay="true" class="videoElement">
@@ -70,9 +78,10 @@
 				0
 			</div>
 		</div>
+		<div class="separator"></div>
 		<div class="containerBlock foeContainer">
 			<div class="gameplayField">
-				
+				<div class="foeChoice">✊</div>
 			</div>
 			<div class="scoreBlock">
 				0
@@ -82,6 +91,8 @@
 	</div>
 	<!-- MainScript -->
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+	<script src="js/classes.js"></script>
+	<script src="js/tech.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

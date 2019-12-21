@@ -12,15 +12,25 @@ class Page {
 	_pageID;
 	_position;
 	_title;
+	static _openPagesCount = 0;
 
 	start() {
-		this._pageID.classList.add("activated");
+		Page._openPagesCount++;
+
+		Settings.setSettingsButton();
+		this._pageID.classList.add("activatedPage");
 	}
 	stop() {
-		this._pageID.classList.remove("activated");
+		Page._openPagesCount--;
+
+		if (Page._openPagesCount == 0) {
+			Settings.unsetSettingsButton();
+		}
+
+		this._pageID.classList.remove("activatedPage");
 	}
 	showUp() {
-		console.log("Here he comes from" + _position);
+		this._pageID.classList.toggle(`showUp_${this._position}`);
 	}
 	setTitle(title) {
 		//First time Type?
@@ -29,17 +39,28 @@ class Page {
 	getTitle() {
 		return this._title;
 	}
+	getPageID() {
+		return this._pageID;
+	}
 
 	static getClassByDOM(domElement) {
 		let el = domElement;
 		
-		while (el.dataset.coreElement || el == document.body) {
+		while (el != document.body) {
 			if (el.dataset.coreElement) {
 				return el.id;
 			}
+
+			el = el.parentElement;
 		}
 
 		throw new Error("Not found parent of this button");
+	}
+	static setOpenPagesCount(value) {
+		Page._openPagesCount = value;
+	}
+	static getOpenPagesCount() {
+		return Page._openPagesCount;
 	}
 }
 
@@ -69,21 +90,65 @@ class MenuPage extends Page {
 }
 
 class GamePage extends Page {
-	_score = 0;
+	_playerScore = 0;
+	_computerScore = 0;
 	_separator = 0;
 	_inputType = "Buttons";
 
-	playRound() {
-		console.log("This is the round in game");
+	playRound(choice) {
+		let aiChoice = GamePage.getComputerChoice();
+
+		if (GamePage.getWinner(choice,aiChoice)) {
+			//User wins
+
+			this._playerScore++;
+		} else {
+			//Computer wins
+			
+			this._computerScore++;
+		}
+
+		this.refreshScore();
 	}
-	resetState() {
-		console.log("Score 0, etc");
+	static getComputerChoice() {
+		return "paper";
+	}
+	static getWinner(first, second) {
+		if (first > second) {
+			return true;
+		} else {
+			false;
+		}
+	}
+	refreshScore(reset) {
+		if (reset) {
+			this._computerScore = 0;
+			this._playerScore = 0;
+		}
+
+		this._pageID.querySelector(".userScoreBlock").innerHTML = this._playerScore;
+		this._pageID.querySelector(".computerScoreBlock").innerHTML = this._computerScore;
 	}
 }
 
 class Settings extends Page {
+	_activated = 0;
 
-	//List of settings
+	toggle() {
+		if (!this._activated) {
+			this.start();
+		} else {
+			this.stop();
+		}
+
+		this._activated = (this._activated + 1) % 2;
+	}
+	static setSettingsButton() {
+		settingsButton.classList.add("activated");
+	}
+	static unsetSettingsButton() {
+		settingsButton.classList.remove("activated");
+	}
 }
 
 class HardGamePage extends GamePage {

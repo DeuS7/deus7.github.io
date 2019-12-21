@@ -3,6 +3,7 @@ let settingsElement = document.getElementById("settings");
 let easyGameElement = document.getElementById("easyGame");
 let hardGameElement = document.getElementById("hardGame");
 
+let controllsElement = document.getElementById("controlls");
 let simpleGameButtonElement = document.getElementById("simpleGameButton");
 let settingsButtonElement = document.getElementById("settingsButton");
 let hardGameButtonElement = document.getElementById("hardGameButton");
@@ -13,10 +14,11 @@ let inputScissorsELement = document.getElementsByClassName("inputScissors");
 let backButtonELement = document.getElementsByClassName("backButton");
 
 //name of class instance MUST be the same as the id of the corresponding DOM element.
-let mainMenu = new MenuPage(mainMenuElement, "Main Menu");
-let hardGame = new HardGamePage(hardGameElement, 'right', 'Hard Game');
-let easyGame = new GamePage(easyGameElement, 'left', 'Easy Game');
-let settings = new Settings(settingsElement, 'top', 'Settings');
+//Also it has to be VAR, since only that way it's possible to reach the variable like follows: window[variable]
+var mainMenu = new MenuPage(mainMenuElement, "Main Menu");
+var hardGame = new HardGamePage(hardGameElement, 'right', 'Hard Game');
+var easyGame = new GamePage(easyGameElement, 'left', 'Easy Game');
+var settings = new Settings(settingsElement, 'top', 'Settings');
 
 
 /////////////////////////////Buttons bindings
@@ -29,12 +31,54 @@ simpleGameButtonElement.addEventListener('click', () => {
 	easyGame.start();
 })
 
-settingsButtonElement.addEventListener('click', () => {
-	settings.start();
+settingsButtonElement.addEventListener('click', function() {
+	settings.toggle();
 })
 
+settingsButtonElement.addEventListener('mouseover', () => {
+	settings.showUp();
+})
+hardGameButtonElement.addEventListener('mouseover', () => {
+	hardGame.showUp();
+})
+simpleGameButtonElement.addEventListener('mouseover', () => {
+	easyGame.showUp();
+})
+
+settingsButtonElement.addEventListener('mouseleave', () => {
+	settings.showUp();
+})
+hardGameButtonElement.addEventListener('mouseleave', () => {
+	hardGame.showUp();
+})
+simpleGameButtonElement.addEventListener('mouseleave', () => {
+	easyGame.showUp();
+})
+
+/////////// Play buttons
+
+Array.prototype.forEach.call(inputRockELement, (el) =>{
+	el.addEventListener('click', function() {
+		window[Page.getClassByDOM(this)].playRound("rock");
+	})
+})
+Array.prototype.forEach.call(inputPaperELement, (el) =>{
+	el.addEventListener('click', function() {
+		window[Page.getClassByDOM(this)].playRound("paper");
+	})
+})
+Array.prototype.forEach.call(inputScissorsELement, (el) =>{
+	el.addEventListener('click', function() {
+		window[Page.getClassByDOM(this)].playRound("scissors");
+	})
+})
+
+
+//Each button knows what class instance it belongs to, since DOM id 
+//is the same as class instance's name. So stop() method is called on it.
+//That allows more freedom in building the interface.
 Array.prototype.forEach.call(backButtonELement, (el) =>{
 	el.addEventListener('click', function() {
-		console.log(Page.getClassByDOM(this));
+		window[Page.getClassByDOM(this)].stop();
 	})
 })

@@ -12,21 +12,16 @@ body {
   justify-content: center; }
 
 #settings {
-  left: 0;
-  top: -100vh;
   background: white;
-  height: 50vh; }
+  height: 50vh;
+  z-index: 150; }
 
 #hardGame {
-  top: 0;
-  left: 100vw;
   background: white; }
   #hardGame .backButton {
     left: 10px; }
 
 #easyGame {
-  top: 0;
-  left: -100vw;
   background: white; }
   #easyGame .backButton {
     right: 10px; }
@@ -192,6 +187,49 @@ body {
   left: 50%;
   transform: translate(-50%); }
 
-.activated {
+.activatedPage {
   left: 0 !important;
   top: 0 !important; }
+
+#settingsButton {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200; }
+
+#settingsButton.activated {
+  top: 0;
+  z-index: 200;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  background: crimson; }
+
+.container.showUp_top {
+  bottom: 95vh; }
+
+.container.showUp_right {
+  left: 95vw; }
+
+.container.showUp_bottom {
+  top: 95vh; }
+
+.container.showUp_left {
+  right: 95vw; }
+
+.pageTop {
+  left: 0;
+  bottom: 100vh; }
+
+.pageRight {
+  top: 0;
+  left: 100vw; }
+
+.pageLeft {
+  top: 0;
+  right: 100vw; }
+
+.pageBottom {
+  left: 0;
+  top: 100vh; }

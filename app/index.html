@@ -8,22 +8,24 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+	<div id="settingsButton" class="button">settingsButton</div>
+
 	<div class="container" id="mainMenu">
 		<div class="title bottomTitle">Rock Paper Scissors game</div>
-		<div class="controllButtons">
+		<div class="controllButtons" id="controlls">
 			<div id="simpleGameButton" class="button">simpleGameButton</div>
-			<div id="settingsButton" class="button">settingsButton</div>
+			<div class="button"></div>
 			<div id="hardGameButton" class="button">hardGameButton</div>
 		</div>
 	</div>
-	<div class="container" id="settings">
-		<div class="title topTitle">settings</div>
+	<div class="container pageTop" id="settings">
 		<div class="containerBlock">
 			<div>There probably gonna be some stuff</div>
 		</div>
+		<div class="title bottomTitle">settings</div>
 	</div>
-	<div class="container gameContainer" id="easyGame">
-		<div class="title leftTitle">hard Game</div>
+	<div class="container gameContainer pageLeft" id="easyGame">
+		<div class="title rightTitle">hard Game</div>
 		<div class="containerBlock">
 			<div class="gameplayField">
 				<div class="buttonInput gameInput">
@@ -39,7 +41,7 @@
 					<div class="gesturePrediction"></div>
 				</div>
 			</div>
-			<div class="scoreBlock">
+			<div class="scoreBlock userScoreBlock">
 				0
 			</div>
 		</div>
@@ -47,20 +49,16 @@
 			<div class="gameplayField">
 				<div class="foeChoice">✊</div>
 			</div>
-			<div class="scoreBlock">
+			<div class="scoreBlock computerScoreBlock">
 				0
 			</div>
 		</div>
 		<div class="backButton">Back</div>
 	</div>
-	<div class="container gameContainer" id="hardGame">
+	<div class="container gameContainer pageRight" id="hardGame">
 		<div class="title leftTitle">hard Game</div>
 		<div class="containerBlock">
 			<div class="gameplayField">
-				<div class="inputSelection">
-					<div class="inputType buttonInputType">Button</div>
-					<div class="inputType webcamInputType">Webcam</div>
-				</div>
 				<div class="buttonInput gameInput">
 					<div class="inputButton inputRock">✊</div>
 					<div class="inputButton inputPaper">✋</div>
@@ -74,7 +72,7 @@
 					<div class="gesturePrediction"></div>
 				</div>
 			</div>
-			<div class="scoreBlock">
+			<div class="scoreBlock userScoreBlock">
 				0
 			</div>
 		</div>
@@ -83,7 +81,7 @@
 			<div class="gameplayField">
 				<div class="foeChoice">✊</div>
 			</div>
-			<div class="scoreBlock">
+			<div class="scoreBlock computerScoreBlock">
 				0
 			</div>
 		</div>

@@ -104,7 +104,8 @@ body {
 
 .buttonInput {
   display: flex;
-  justify-content: space-between; }
+  justify-content: space-between;
+  display: none; }
 
 .inputButton {
   border: 1px solid red;
@@ -120,8 +121,7 @@ body {
   font-size: 110px; }
 
 .videoInput {
-  position: relative;
-  display: none; }
+  position: relative; }
   .videoInput video {
     width: 100%;
     height: 100%;

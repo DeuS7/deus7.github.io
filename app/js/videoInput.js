@@ -10,20 +10,6 @@ let videoSettings = {
   }
 }
 
-function startVideo() {
-  console.log("started video stream");
-
-  if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true })
-    .then(function (stream) {
-      video.srcObject = stream;
-    })
-    .catch(function (err0r) {
-      console.log(err0r);
-    });
-  }
-}
-
 const doSinglePrediction = async (model, img, options = {}) => {
   const resized = tf.tidy(() => {
 

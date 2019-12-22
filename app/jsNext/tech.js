@@ -12,6 +12,11 @@ let inputRockELement = document.getElementsByClassName("inputRock");
 let inputPaperELement = document.getElementsByClassName("inputPaper");
 let inputScissorsELement = document.getElementsByClassName("inputScissors");
 let backButtonELement = document.getElementsByClassName("backButton");
+let videoOnButtonElement = document.getElementsByClassName("videoOnButton");
+
+const paperIcon = "✋";
+const rockIcon = "✊";
+const scissorsIcon = "✌";
 
 //name of class instance MUST be the same as the id of the corresponding DOM element.
 //Also it has to be VAR, since only that way it's possible to reach the variable like follows: window[variable]
@@ -80,5 +85,10 @@ Array.prototype.forEach.call(inputScissorsELement, (el) =>{
 Array.prototype.forEach.call(backButtonELement, (el) =>{
 	el.addEventListener('click', function() {
 		window[Page.getClassByDOM(this)].stop();
+	})
+})
+Array.prototype.forEach.call(videoOnButtonElement, (el) =>{
+	el.addEventListener('click', function() {
+		window[Page.getClassByDOM(this)].startVideo();
 	})
 })

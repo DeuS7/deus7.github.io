@@ -5,29 +5,25 @@ hardGame.start();
 let testVideoInput = document.getElementById("testVideoInput");
 let video = document.querySelector("#videoElement");
 
-/*const model = tf.loadLayersModel('../rps-model.json').then(function(res) {
-	return res;
-})*/
 
 let model;
 (async function () {
     model = await tf.loadLayersModel('../rps-model.json');
 })();
 
-startVideo();
-
 function startGuessing() {
 	let intervalID = setInterval(function() {
 		doSinglePrediction(model, cropVideo(video, true)).then(function(res) {
-			//another function to show it to user
-			console.log(res);
+			//Not like this! Get the var instead of writing it!
+			hardGame.showUserPrediction("rock");
 		})
 	}, 500);
 
 	var timeCounter = 0;
 	setTimeout(function time() {
 		//Some function to show it to user instead of console.log
-		console.log(3000-timeCounter);
+		//Not like this!
+		hardGame.showTimeCount(3000-timeCounter);
 
 		//Settings.time 
 		timeCounter += 1000;
@@ -42,5 +38,3 @@ function startGuessing() {
 		}
 	}, 0);
 }
-
-startGuessing();

@@ -95,6 +95,12 @@ class GamePage extends Page {
 	_separator = 0;
 	_inputType = "Buttons";
 
+	static _currentVideo = "";
+	static _videoTimerID = "";
+
+	static _motionTest = [];
+	static _motionDarkTest = [];
+
 	playRound(choice) {
 		let aiChoice = GamePage.getComputerChoice();
 
@@ -128,6 +134,79 @@ class GamePage extends Page {
 
 		this._pageID.querySelector(".userScoreBlock").innerHTML = this._playerScore;
 		this._pageID.querySelector(".computerScoreBlock").innerHTML = this._computerScore;
+	}
+	showUserPrediction(prediction) {
+		var videoInput = this._pageID.querySelector(".videoInput");
+		var gesturePrediction = videoInput.querySelector(".gesturePrediction");
+
+		switch(prediction) {
+			case "scissors":
+			gesturePrediction.innerHTML = scissorsIcon;
+			break;
+			case "paper":
+			gesturePrediction.innerHTML = paperIcon;
+			break;
+			case "rock":
+			gesturePrediction.innerHTML = rockIcon;
+			break;
+			default:
+			throw new Error("Unexpected parameter in showUserPrediction: " + prediction);
+		}
+	}
+	showTimeCount(time) {
+		var videoInput = this._pageID.querySelector(".videoInput");
+		var videoTimeCount = videoInput.querySelector(".videoTimeCount");
+
+		if (time > 0) {
+			videoTimeCount.innerHTML = time/1000;
+		} else {
+			videoTimeCount.innerHTML = "";
+		}
+	}
+	startVideo() {
+		let video = this._pageID.querySelector(".videoElement");
+		GamePage._currentVideo = video;
+
+		if (navigator.mediaDevices.getUserMedia) {
+			navigator.mediaDevices.getUserMedia({ video: true })
+			.then(function (stream) {
+				console.log("started video stream");
+
+				video.srcObject = stream;
+
+				GamePage._videoTimerID = setInterval(function() {
+					console.log("Testing for motion");
+					
+					console.log(GamePage.testForMotion(300, 500, 175, 375));
+					console.log(GamePage.testForDark(100, 400, 50, 325));
+				}, 100);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		}
+
+
+	}
+	//Don't have time, so these are gonna be really straightforward.
+	static testForMotion(x1, x2, y1, y2) {
+		
+		
+		return true;
+	}
+	static testForDark(x1, x2, y1, y2) {
+		return true;
+	}
+	stopVideo() {
+		let video = this._pageID.querySelector(".videoElement");
+
+		clearInterval(GamePage._videoTimerID);
+		GamePage._videoTimerID = "";
+	}
+	//Don't want to allow to work several of videoInputs simultaniously,
+	//since it might affect the speed and quality. So the func is static, and so is the var.
+	static startGuessing() {
+
 	}
 }
 

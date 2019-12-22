@@ -97,8 +97,9 @@ class GamePage extends Page {
 
 	static _currentVideo = "";
 	static _videoTimerID = "";
+	static _isGuessing = false;
 
-	static _motionTest = [];
+	static _motionTest = 0;
 	static _motionDarkTest = [];
 
 	playRound(choice) {
@@ -165,13 +166,12 @@ class GamePage extends Page {
 	}
 	startVideo() {
 		let video = this._pageID.querySelector(".videoElement");
+		let self = this;
 		GamePage._currentVideo = video;
 
 		if (navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({ video: true })
 			.then(function (stream) {
-				console.log("started video stream");
-
 				video.srcObject = stream;
 
 				GamePage._videoTimerID = setInterval(function() {
@@ -179,9 +179,14 @@ class GamePage extends Page {
 					
 					//if true, startGuessing 
 					//inside it block following calls
-					console.log(GamePage.testForMotion());
-					//if so, just shut down. Show button to start "T"
-					//console.log(GamePage.testForDark());
+					if (GamePage.testForDark()) {
+						//Probably test less.
+						GamePage.stopVideo();
+					}
+					if (GamePage.testForMotion() && !GamePage._isGuessing) {
+						GamePage._isGuessing = true;
+						GamePage.startGuessing();
+					}
 				}, 1000);
 			})
 			.catch(function (error) {
@@ -195,36 +200,79 @@ class GamePage extends Page {
 	//Saves result in static var.
 	static testForMotion() {
 		let video = GamePage._currentVideo;
+		let currentPixelsSum = 0;
 
-		let canvas = cropVideo(video, true, 300, 0, 200, 200);
+		let canvas = cropVideo(video, false, 350, 50, 100, 100);
 		let ctx = canvas.getContext("2d");
 
-		/*for (let x = 0;x<200;x++) {
-			for (let y = 0;y<200;y++) {
+		for (let x = 0;x<200;x+= 10) {
+			for (let y = 0;y<200;y += 10) {
 				let pixelData = ctx.getImageData(x,y,1,1).data;
 
-				if (x == 100 && y == 100) {
-					console.log(pixelData);
-				}
+				currentPixelsSum += (pixelData.reduce(function(sum, cur) {
+					return sum += cur;
+				}, 0));
 			}
-		}*/
-		
-		return true;
+		}
+
+		//First frame should be ignored, otherwise it'll always fire motion event.
+		if (GamePage._motionTest == 0) {
+			GamePage._motionTest = currentPixelsSum;
+			return false;
+		}
+
+		let diff = Math.abs((GamePage._motionTest-currentPixelsSum)/currentPixelsSum*100);
+
+		GamePage._motionTest = currentPixelsSum;
+
+		if (diff > 1) {
+			return true;
+		}
+
+		return false;
 	}
 	//Test if camera is covered
 	static testForDark(x1, x2, y1, y2) {
-		return true;
+		let video = GamePage._currentVideo;
+		let currentPixelsAverage = 0;
+
+		let canvas = cropVideo(video, false, 100, 100, 300, 300);
+		let ctx = canvas.getContext("2d");
+
+		let counter = 0;
+
+		for (let x = 0;x<200;x+= 50) {
+			for (let y = 0;y<200;y += 50) {
+				let pixelData = ctx.getImageData(x,y,1,1).data;
+
+				for (let i = 0;i<3;i++) {
+					currentPixelsAverage += pixelData[i];
+				}
+
+				counter += 3;
+			}
+		}
+
+		if (currentPixelsAverage / counter < 40) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	stopVideo() {
 		let video = this._pageID.querySelector(".videoElement");
 
 		clearInterval(GamePage._videoTimerID);
+
+		GamePage._isGuessing = true;
 		GamePage._videoTimerID = "";
 	}
 	//Don't want to allow to work several of videoInputs simultaniously,
 	//since it might affect the speed and quality. So the func is static, and so is the var.
 	static startGuessing() {
+		console.warn("I'm guessing");
 
+		GamePage._isGuessing = false;
 	}
 }
 

@@ -246,7 +246,7 @@ body {
   left: 0;
   top: 100vh; }
 
-#videoElement {
+.videoElement {
   width: 100%;
   height: 100%;
   background-color: #666;
@@ -260,3 +260,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 55px; }
+
+#devModeCroppedImage {
+  z-index: 10000;
+  position: fixed; }

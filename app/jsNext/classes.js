@@ -177,9 +177,12 @@ class GamePage extends Page {
 				GamePage._videoTimerID = setInterval(function() {
 					console.log("Testing for motion");
 					
-					console.log(GamePage.testForMotion(300, 500, 175, 375));
-					console.log(GamePage.testForDark(100, 400, 50, 325));
-				}, 100);
+					//if true, startGuessing 
+					//inside it block following calls
+					console.log(GamePage.testForMotion());
+					//if so, just shut down. Show button to start "T"
+					//console.log(GamePage.testForDark());
+				}, 1000);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -189,11 +192,26 @@ class GamePage extends Page {
 
 	}
 	//Don't have time, so these are gonna be really straightforward.
-	static testForMotion(x1, x2, y1, y2) {
-		
+	//Saves result in static var.
+	static testForMotion() {
+		let video = GamePage._currentVideo;
+
+		let canvas = cropVideo(video, true, 300, 0, 200, 200);
+		let ctx = canvas.getContext("2d");
+
+		/*for (let x = 0;x<200;x++) {
+			for (let y = 0;y<200;y++) {
+				let pixelData = ctx.getImageData(x,y,1,1).data;
+
+				if (x == 100 && y == 100) {
+					console.log(pixelData);
+				}
+			}
+		}*/
 		
 		return true;
 	}
+	//Test if camera is covered
 	static testForDark(x1, x2, y1, y2) {
 		return true;
 	}

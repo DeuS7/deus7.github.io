@@ -303,7 +303,7 @@ body {
 
 /////////////////////////////////
 
-#videoElement {
+.videoElement {
 	width: 100%;
 	height: 100%;
 	background-color: #666;
@@ -320,3 +320,7 @@ body {
 	font-size: 55px;
 }
 
+#devModeCroppedImage {
+	z-index: 10000;
+	position: fixed;
+}

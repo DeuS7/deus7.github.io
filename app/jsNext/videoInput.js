@@ -54,11 +54,11 @@ const doSinglePrediction = async (model, img, options = {}) => {
   return result;
 }
 
-function cropVideo(video, devMode) {
+function cropVideo(video, devMode, x1, y2, xW, yH) {
   var canvas = document.createElement('canvas');
 
-  canvas.width = videoSettings.gestDet.width;
-  canvas.height = videoSettings.gestDet.height;
+  canvas.width = xW;
+  canvas.height = yH;
 
   //Video from webcam has intrinsic size of 640x480, instead of 500x375, that was specified.
   let widthCoeff = video.videoWidth / 500;
@@ -69,7 +69,8 @@ function cropVideo(video, devMode) {
   ctx.translate(videoSettings.gestDet.width, 0);
   ctx.scale(-1, 1);
 
-  ctx.drawImage(video, 0, 0, videoSettings.gestDet.width*widthCoeff, videoSettings.gestDet.height*heightCoeff, 0, 0, canvas.width, canvas.width);
+  //ctx.drawImage(video, 0, 0, videoSettings.gestDet.width*widthCoeff, videoSettings.gestDet.height*heightCoeff, 0, 0, canvas.width, canvas.width);
+  ctx.drawImage(video, 500*widthCoeff-x1*widthCoeff-xW*widthCoeff, 0, xW*widthCoeff, yH*heightCoeff, 0, 0, canvas.width, canvas.width);
 
 
   if (devMode) {

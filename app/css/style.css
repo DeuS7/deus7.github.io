@@ -148,7 +148,7 @@ body {
   align-items: center;
   color: white;
   font-size: 125px;
-  opacity: 0.5; }
+  opacity: 0.7; }
 
 .gestureMark.active {
   border: 3px solid green; }
@@ -160,7 +160,8 @@ body {
   transform: translate(-50%, -50%);
   border: 1px solid red;
   font-size: 125px;
-  cursor: pointer; }
+  cursor: pointer;
+  color: white; }
 
 .gameInput {
   border: 1px solid red;
@@ -269,3 +270,14 @@ body {
 
 .disNone {
   display: none; }
+
+@keyframes bounce {
+  0% {
+    font-size: 15px; }
+  50% {
+    font-size: 35px; }
+  100% {
+    font-size: 15px; } }
+
+.bounceAnim {
+  animation: bounce 1s; }

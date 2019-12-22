@@ -62,6 +62,11 @@ class Page {
 	static getOpenPagesCount() {
 		return Page._openPagesCount;
 	}
+	static animateNode(node, newClass) {
+		node.classList.add(newClass);
+		var newone = node.cloneNode(true);
+		node.parentNode.replaceChild(newone, node);
+	}
 }
 
 class MenuPage extends Page {
@@ -106,30 +111,66 @@ class GamePage extends Page {
 
 	playRound(choice) {
 		let aiChoice = GamePage.getComputerChoice();
+		let foeChoiceElement = this._pageID.querySelector(".foeChoice");
 
-		if (GamePage.getWinner(choice,aiChoice)) {
-			//User wins
-
-			this._playerScore++;
-		} else {
-			//Computer wins
-			
-			this._computerScore++;
+		switch(aiChoice) {
+			case "scissors":
+			foeChoiceElement.innerHTML = scissorsIcon;
+			break;
+			case "paper":
+			foeChoiceElement.innerHTML = paperIcon;
+			break;
+			case "rock":
+			foeChoiceElement.innerHTML = rockIcon;
+			break;
+			default:
+			foeChoiceElement.innerHTML = "";
 		}
 
-		this.refreshScore();
+		if (GamePage.getWinner(choice,aiChoice) > 0) {
+			//User wins
+			this._playerScore++;
+			this.refreshScore("user");
+		} 
+		if (GamePage.getWinner(choice,aiChoice) < 0) {
+			//Computer wins
+			this._computerScore++;
+			this.refreshScore("ai");
+		} else {
+			this._computerScore++;
+			this._playerScore++;
+			this.refreshScore("tie");
+		}
 	}
 	static getComputerChoice() {
-		return "paper";
+		let random = Math.random();
+
+		if (random < 0.33) {
+			return "rock";
+		} 
+		if (random < 0.66) {
+			return "paper";
+		}
+		return "scissors";
 	}
-	static getWinner(first, second) {
-		if (first > second) {
-			return true;
+	static getWinner(user, ai) {
+		let obj = {
+			scissors: ["paper", "rock"],
+			paper: ["rock", "scissors"],
+			rock: ["scissors", "paper"]
+		}
+
+		if (user == ai) {
+			return 0;
+		}
+
+		if (obj[user][0] == ai) {
+			return 1;
 		} else {
-			false;
+			return -1;
 		}
 	}
-	refreshScore(reset) {
+	refreshScore(winner, reset) {
 		if (reset) {
 			this._computerScore = 0;
 			this._playerScore = 0;
@@ -137,6 +178,13 @@ class GamePage extends Page {
 
 		this._pageID.querySelector(".userScoreBlock").innerHTML = this._playerScore;
 		this._pageID.querySelector(".computerScoreBlock").innerHTML = this._computerScore;
+
+		if (winner == "user" || winner == "tie") {
+			Page.animateNode(this._pageID.querySelector(".userScoreBlock"), "bounceAnim");
+		}
+		if (winner == "ai" || winner == "tie") {
+			Page.animateNode(this._pageID.querySelector(".computerScoreBlock"), "bounceAnim");
+		}
 	}
 	showUserPrediction(prediction) {
 		var videoInput = this._pageID.querySelector(".videoInput");

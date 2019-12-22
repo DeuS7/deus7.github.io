@@ -90,5 +90,6 @@ Array.prototype.forEach.call(backButtonELement, (el) =>{
 Array.prototype.forEach.call(videoOnButtonElement, (el) =>{
 	el.addEventListener('click', function() {
 		window[Page.getClassByDOM(this)].startVideo();
+		this.classList.add("disNone");
 	})
 })

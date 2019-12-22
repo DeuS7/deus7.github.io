@@ -175,10 +175,9 @@ body {
 .gesturePrediction {
 	position: absolute;
 	top: 0;
-	left: 300px;
-	width: 200px;
-	height: 200px;
-	border: 1px solid red;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	z-index: 110;
 	display: flex;
 	justify-content: center;
@@ -187,6 +186,9 @@ body {
 	color: white;
 	font-size: 125px;
 	opacity: 0.5;
+}
+.gestureMark.active {
+	border: 3px solid green;
 }
 .videoOnButton {
 	position: absolute;
@@ -323,4 +325,8 @@ body {
 #devModeCroppedImage {
 	z-index: 10000;
 	position: fixed;
+}
+
+.disNone {
+	display: none;
 }

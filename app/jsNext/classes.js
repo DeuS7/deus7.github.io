@@ -95,9 +95,11 @@ class GamePage extends Page {
 	_separator = 0;
 	_inputType = "Buttons";
 
+	static _mediaStreamObject = "";
 	static _currentVideo = "";
 	static _videoTimerID = "";
 	static _isGuessing = false;
+	static _gameState = "cameraOff";
 
 	static _motionTest = 0;
 	static _motionDarkTest = [];
@@ -151,7 +153,7 @@ class GamePage extends Page {
 			gesturePrediction.innerHTML = rockIcon;
 			break;
 			default:
-			throw new Error("Unexpected parameter in showUserPrediction: " + prediction);
+			gesturePrediction.innerHTML = "";
 		}
 	}
 	showTimeCount(time) {
@@ -166,28 +168,42 @@ class GamePage extends Page {
 	}
 	startVideo() {
 		let video = this._pageID.querySelector(".videoElement");
+		let gestureMark = this._pageID.querySelector(".gestureMark");
 		let self = this;
 		GamePage._currentVideo = video;
+
+		gestureMark.classList.remove("disNone");
+
+		GamePage._gameState = "ready";
 
 		if (navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({ video: true })
 			.then(function (stream) {
 				video.srcObject = stream;
+				GamePage._mediaStreamObject = stream;
 
-				GamePage._videoTimerID = setInterval(function() {
-					console.log("Testing for motion");
-					
-					//if true, startGuessing 
-					//inside it block following calls
-					if (GamePage.testForDark()) {
-						//Probably test less.
-						self.stopVideo();
+				setTimeout(function() {
+					if (GamePage._gameState == "cameraOff") {
+						return;
 					}
-					if (GamePage.testForMotion() && !GamePage._isGuessing) {
-						GamePage._isGuessing = true;
-						GamePage.startGuessing();
-					}
-				}, 1000);
+					//Delay game for some time, so that video stream can normalize.
+					console.log("Test for motion begins now!");
+					gestureMark.classList.add("active");
+
+					GamePage._videoTimerID = setInterval(function() {
+						console.log("Testing for motion");
+
+
+						if (GamePage.testForDark()) {
+							self.stopVideo();
+						}
+						if (GamePage.testForMotion() && !GamePage._isGuessing) {
+							GamePage._isGuessing = true;
+							gestureMark.classList.remove("active");
+							self.startGuessing();
+						}
+					}, 1000);
+				}, 3000);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -199,6 +215,10 @@ class GamePage extends Page {
 	//Don't have time, so these are gonna be really straightforward.
 	//Saves result in static var.
 	static testForMotion() {
+		if (GamePage._gameState == "cameraOff") {
+			return;
+		}
+
 		let video = GamePage._currentVideo;
 		let currentPixelsSum = 0;
 
@@ -261,18 +281,92 @@ class GamePage extends Page {
 	}
 	stopVideo() {
 		let video = this._pageID.querySelector(".videoElement");
+		let gesturePrediction = this._pageID.querySelector(".gesturePrediction");
+		let gestureMark = this._pageID.querySelector(".gestureMark");
 
 		clearInterval(GamePage._videoTimerID);
 
-		GamePage._isGuessing = true;
+		this.showTimeCount(-1);
+		this.showUserPrediction("none");
+
+		GamePage._motionTest = 0;
+
+		GamePage._isGuessing = false;
+		GamePage._gameState = "cameraOff";
 		GamePage._videoTimerID = "";
+
+		gestureMark.classList.remove("active");
+		gestureMark.classList.add("disNone");
+
+		
+
+		GamePage._mediaStreamObject.getTracks()[0].stop();
+		
+		//Make buttons appear again
+		Array.prototype.forEach.call(videoOnButtonElement, (el) =>{
+			el.classList.remove("disNone");
+		})
 	}
 	//Don't want to allow to work several of videoInputs simultaniously,
 	//since it might affect the speed and quality. So the func is static, and so is the var.
-	static startGuessing() {
-		console.warn("I'm guessing");
+	startGuessing() {
+		let self = this;
+		let video = GamePage._currentVideo;
+		let lastPrediction = "";
+		let gestureMark = this._pageID.querySelector(".gestureMark");
 
-		GamePage._isGuessing = false;
+		if (GamePage._gameState == "cameraOff") {
+			return;
+		}
+
+		GamePage._gameState = "guessing";
+
+		let intervalID = setInterval(function() {
+			if (GamePage._gameState == "cameraOff") {
+				clearInterval(intervalID);
+				return;
+			}
+
+			doSinglePrediction(model, cropVideo(video, false, 300, 0, 200, 200)).then(function(res) {
+				if (res.Rock > res.Paper && res.Rock > res.Scissors) {
+					self.showUserPrediction("rock");
+					lastPrediction = "rock";
+				}
+				if (res.Paper > res.Rock && res.Paper > res.Scissors) {
+					self.showUserPrediction("paper");
+					lastPrediction = "paper";
+				}
+				if (res.Scissors > res.Paper && res.Scissors > res.Rock) {
+					self.showUserPrediction("scissors");
+					lastPrediction = "scissors";
+				}
+			})
+		}, 100);
+
+		var timeCounter = 0;
+
+		setTimeout(function time() {
+			if (GamePage._gameState == "cameraOff") {
+				return;
+			}
+
+			self.showTimeCount(3000-timeCounter);
+
+			timeCounter += 1000;
+
+			if (timeCounter <= 3000) {
+				setTimeout(time, 1000);
+			} else {
+				clearInterval(intervalID);
+				
+				setTimeout(function() {
+					GamePage._isGuessing = false;
+					gestureMark.classList.add("active");
+				}, 2000);
+
+				self.playRound(lastPrediction);
+			}
+		}, 0);
 	}
 }
 

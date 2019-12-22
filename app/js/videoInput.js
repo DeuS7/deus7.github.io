@@ -54,7 +54,7 @@ const doSinglePrediction = async (model, img, options = {}) => {
   return result;
 }
 
-function cropVideo(video, devMode, x1, y2, xW, yH) {
+function cropVideo(video, devMode, x1, y1, xW, yH) {
   var canvas = document.createElement('canvas');
 
   canvas.width = xW;
@@ -66,12 +66,10 @@ function cropVideo(video, devMode, x1, y2, xW, yH) {
 
   var ctx = canvas.getContext('2d');
   //Flips the pixels of the img around
-  ctx.translate(videoSettings.gestDet.width, 0);
+  ctx.translate(xW, 0);
   ctx.scale(-1, 1);
 
-  //ctx.drawImage(video, 0, 0, videoSettings.gestDet.width*widthCoeff, videoSettings.gestDet.height*heightCoeff, 0, 0, canvas.width, canvas.width);
-  ctx.drawImage(video, 500*widthCoeff-x1*widthCoeff-xW*widthCoeff, 0, xW*widthCoeff, yH*heightCoeff, 0, 0, canvas.width, canvas.width);
-
+  ctx.drawImage(video, 500*widthCoeff-x1*widthCoeff-xW*widthCoeff, y1*heightCoeff, xW*widthCoeff, yH*heightCoeff, 0, 0, canvas.width, canvas.width);
 
   if (devMode) {
     if (!document.getElementById("devModeCroppedImage")) {

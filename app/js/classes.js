@@ -181,7 +181,7 @@ class GamePage extends Page {
 					//inside it block following calls
 					if (GamePage.testForDark()) {
 						//Probably test less.
-						GamePage.stopVideo();
+						self.stopVideo();
 					}
 					if (GamePage.testForMotion() && !GamePage._isGuessing) {
 						GamePage._isGuessing = true;

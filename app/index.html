@@ -8,19 +8,46 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div id="settingsButton" class="button">settingsButton</div>
+	<div id="settingsButton" class="menuButton"></div>
 
 	<div class="container" id="mainMenu">
 		<div class="title bottomTitle">Rock Paper Scissors game</div>
 		<div class="controllButtons" id="controlls">
-			<div id="simpleGameButton" class="button">simpleGameButton</div>
-			<div class="button"></div>
-			<div id="hardGameButton" class="button">hardGameButton</div>
+			<div id="simpleGameButton" class="menuButton"></div>
+			<div id="hardGameButton" class="menuButton"></div>
 		</div>
 	</div>
 	<div class="container pageTop" id="settings">
 		<div class="containerBlock">
-			<div>There probably gonna be some stuff</div>
+			<div class="settingsLine">
+				<div class="settingsLineTitle">Game Delay</div>
+				<div class="setttingsLineSet">
+					<input type="range" min="1" max="10" value="3" class="slider setting" id="gameDelaySlider">
+					<span class="sliderValue" id="gameDelayValue">3</span>
+				</div>
+			</div>
+			<div class="settingsLine">
+				<div class="settingsLineTitle">Recognition Delay</div>
+				<div class="setttingsLineSet">
+					<input type="range" min="0" max="5" value="2" step="0.5" class="slider setting" id="recognitionDelaySlider">
+					<span class="sliderValue" id="recognitionDelayValue">2</span>
+				</div>
+			</div>
+			<div class="settingsLine">
+				<div class="settingsLineTitle">Input Type</div>
+				<div class="setttingsLineSet">
+					<div class="buttonInputType inputType active" id="buttonInput"></div>
+					<div class="webcamInputType inputType" id="webcamInput"></div>
+				</div>
+			</div>
+			<div class="settingsLine">
+				<span class="resetScore button" id="resetScoreButton">Reset Score</span>
+			</div>
+			<div class="title topTitle">Settings</div>
+		</div>
+		<div class="containerBlock">
+			<div>Some Stuff</div>
+			<div class="title topTitle">Info</div>
 		</div>
 		<div class="title bottomTitle">settings</div>
 	</div>
@@ -28,7 +55,7 @@
 		<div class="title rightTitle">Easy game</div>
 		<div class="containerBlock">
 			<div class="gameplayField">
-				<div class="buttonInput gameInput">
+				<div class="buttonInput gameInput active active">
 					<div class="inputButton inputRock">✊</div>
 					<div class="inputButton inputPaper">✋</div>
 					<div class="inputButton inputScissors">✌</div>
@@ -40,7 +67,7 @@
 					<div class="gestureMark disNone">
 						<div class="gesturePrediction"></div>
 					</div>
-					<div class="videoTimeCount"></div>
+					<div class="videoTimeCount disNone"></div>
 					<div class="videoOnButton">▶️</div>
 				</div>
 			</div>
@@ -62,7 +89,7 @@
 		<div class="title leftTitle">hard Game</div>
 		<div class="containerBlock">
 			<div class="gameplayField">
-				<div class="buttonInput gameInput">
+				<div class="buttonInput gameInput active">
 					<div class="inputButton inputRock">✊</div>
 					<div class="inputButton inputPaper">✋</div>
 					<div class="inputButton inputScissors">✌</div>
@@ -74,7 +101,7 @@
 					<div class="gestureMark disNone">
 						<div class="gesturePrediction"></div>
 					</div>
-					<div class="videoTimeCount"></div>
+					<div class="videoTimeCount disNone"></div>
 					<div class="videoOnButton">▶️</div>
 				</div>
 			</div>
@@ -97,6 +124,7 @@
 	<script src="js/classes.js"></script>
 	<script src="js/tech.js"></script>
 	<script src="js/videoInput.js"></script>
+	<script src="js/settings.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

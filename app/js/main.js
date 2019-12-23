@@ -1,4 +1,3 @@
-hardGame.start();
 
 ////////test
 //Temp things

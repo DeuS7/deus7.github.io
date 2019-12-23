@@ -127,15 +127,17 @@ class GamePage extends Page {
 			foeChoiceElement.innerHTML = "";
 		}
 
-		if (GamePage.getWinner(choice,aiChoice) > 0) {
+		if (GamePage.getWinner(choice, aiChoice) > 0) {
 			//User wins
 			this._playerScore++;
 			this.refreshScore("user");
+			return;
 		} 
 		if (GamePage.getWinner(choice,aiChoice) < 0) {
 			//Computer wins
 			this._computerScore++;
 			this.refreshScore("ai");
+			return;
 		} else {
 			this._computerScore++;
 			this._playerScore++;
@@ -207,11 +209,13 @@ class GamePage extends Page {
 	showTimeCount(time) {
 		var videoInput = this._pageID.querySelector(".videoInput");
 		var videoTimeCount = videoInput.querySelector(".videoTimeCount");
+		videoTimeCount.classList.remove('disNone');
 
 		if (time > 0) {
-			videoTimeCount.innerHTML = time/1000;
+			videoTimeCount.innerHTML = time;
 		} else {
 			videoTimeCount.innerHTML = "";
+			videoTimeCount.classList.add('disNone');
 		}
 	}
 	startVideo() {
@@ -398,11 +402,11 @@ class GamePage extends Page {
 				return;
 			}
 
-			self.showTimeCount(3000-timeCounter);
+			self.showTimeCount(gameSettings.gameDelay-timeCounter);
 
-			timeCounter += 1000;
+			timeCounter += 1;
 
-			if (timeCounter <= 3000) {
+			if (timeCounter <= gameSettings.gameDelay) {
 				setTimeout(time, 1000);
 			} else {
 				clearInterval(intervalID);
@@ -410,7 +414,7 @@ class GamePage extends Page {
 				setTimeout(function() {
 					GamePage._isGuessing = false;
 					gestureMark.classList.add("active");
-				}, 2000);
+				}, gameSettings.recognitionDelay * 1000);
 
 				self.playRound(lastPrediction);
 			}

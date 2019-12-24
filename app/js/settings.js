@@ -31,6 +31,8 @@ recognitionDelaySlider.addEventListener("input", function(e) {
 })
 
 resetScoreButton.addEventListener("click", function(e) {
+	Page.animateNode(this, "buttonPushedAnimation");
+
 	hardGame.refreshScore(null, true);
 	easyGame.refreshScore(null, true);
 })

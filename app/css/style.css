@@ -101,10 +101,12 @@ body {
   border-top: none;
   border-bottom: none;
   width: 90px;
-  height: 90px; }
+  height: 90px;
+  transition: 0.4s; }
 
 .inputType.active {
-  opacity: 1; }
+  opacity: 1;
+  background-size: 75px; }
 
 .buttonInputType {
   background: url(../images/xButton.png) no-repeat center center;
@@ -506,3 +508,13 @@ input[type=range]:focus::-ms-fill-upper {
   opacity: 0.5; }
   .disabled .inputButton {
     cursor: not-allowed; }
+
+@keyframes buttonPushed {
+  0% { }
+  50% {
+    background: crimson;
+    color: white; }
+  100% { } }
+
+.buttonPushedAnimation {
+  animation: buttonPushed 0.5s; }

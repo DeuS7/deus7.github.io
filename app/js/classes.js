@@ -63,9 +63,11 @@ class Page {
 		return Page._openPagesCount;
 	}
 	static animateNode(node, newClass) {
-		node.classList.add(newClass);
-		var newone = node.cloneNode(true);
-		node.parentNode.replaceChild(newone, node);
+		node.classList.remove(newClass);
+
+		setTimeout(() => {
+			node.classList.add(newClass);
+		}, 0);
 	}
 }
 

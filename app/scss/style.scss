@@ -1,5 +1,6 @@
 html {
 	box-sizing: border-box;
+	font-family: 'Oswald', sans-serif;
 }
 body {
 	overflow: hidden;
@@ -343,9 +344,6 @@ span.sliderValue {
 	letter-spacing: 3px;
 	text-transform: uppercase;
 	font-weight: bold;
-
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
 
 	background: #F6A77B;
 

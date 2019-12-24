@@ -133,9 +133,7 @@ body {
   position: absolute;
   font-size: 60px;
   border: 2px solid crimson;
-  padding: 0 15px;
-  height: 75px;
-  line-height: 75px;
+  padding: 5px 15px;
   top: 70px;
   left: 50%;
   transform: translate(-50%);
@@ -176,7 +174,8 @@ body {
 
 .buttonInput {
   display: flex;
-  justify-content: space-between; }
+  justify-content: space-between;
+  transition: 0.3s; }
 
 .inputButton {
   width: 33.3%;
@@ -502,3 +501,8 @@ input[type=range]::-ms-fill-upper {
 
 input[type=range]:focus::-ms-fill-upper {
   background: crimson; }
+
+.disabled {
+  opacity: 0.5; }
+  .disabled .inputButton {
+    cursor: not-allowed; }

@@ -14,9 +14,9 @@ let inputScissorsELement = document.getElementsByClassName("inputScissors");
 let backButtonELement = document.getElementsByClassName("backButton");
 let videoOnButtonElement = document.getElementsByClassName("videoOnButton");
 
-const paperIcon = "✋";
-const rockIcon = "✊";
-const scissorsIcon = "✌";
+var paperIcon = "✋";
+var rockIcon = "✊";
+var scissorsIcon = "✌";
 
 //name of class instance MUST be the same as the id of the corresponding DOM element.
 //Also it has to be VAR, since only that way it's possible to reach the variable like follows: window[variable]
@@ -63,19 +63,40 @@ simpleGameButtonElement.addEventListener('mouseleave', () => {
 /////////// Play buttons
 
 Array.prototype.forEach.call(inputRockELement, (el) =>{
-	el.addEventListener('click', function() {
+	el.addEventListener('click', debounce(function() {
+		var self = this;
 		window[Page.getClassByDOM(this)].playRound("rock");
-	})
+
+		self.parentElement.classList.add("disabled");
+
+		setTimeout(function() {
+			self.parentElement.classList.remove("disabled");
+		}, 1000);
+	}, 1000));
 })
 Array.prototype.forEach.call(inputPaperELement, (el) =>{
-	el.addEventListener('click', function() {
+	el.addEventListener('click', debounce(function() {
+		var self = this;
 		window[Page.getClassByDOM(this)].playRound("paper");
-	})
+
+		self.parentElement.classList.add("disabled");
+
+		setTimeout(function() {
+			self.parentElement.classList.remove("disabled");
+		}, 1000);
+	}, 1000));
 })
 Array.prototype.forEach.call(inputScissorsELement, (el) =>{
-	el.addEventListener('click', function() {
+	el.addEventListener('click', debounce(function() {
+		var self = this;
 		window[Page.getClassByDOM(this)].playRound("scissors");
-	})
+
+		self.parentElement.classList.add("disabled");
+
+		setTimeout(function() {
+			self.parentElement.classList.remove("disabled");
+		}, 1000);
+	}, 1000));
 })
 
 
@@ -93,3 +114,23 @@ Array.prototype.forEach.call(videoOnButtonElement, (el) =>{
 		this.classList.add("disNone");
 	})
 })
+
+
+
+//Simple debounce
+
+function debounce(f, ms) {
+
+  let isCooldown = false;
+
+  return function() {
+    if (isCooldown) return;
+
+    f.apply(this, arguments);
+
+    isCooldown = true;
+
+    setTimeout(() => isCooldown = false, ms);
+  };
+
+}

@@ -112,37 +112,41 @@ class GamePage extends Page {
 	playRound(choice) {
 		let aiChoice = GamePage.getComputerChoice();
 		let foeChoiceElement = this._pageID.querySelector(".foeChoice");
+		let self = this;
 
-		switch(aiChoice) {
-			case "scissors":
-			foeChoiceElement.innerHTML = scissorsIcon;
-			break;
-			case "paper":
-			foeChoiceElement.innerHTML = paperIcon;
-			break;
-			case "rock":
-			foeChoiceElement.innerHTML = rockIcon;
-			break;
-			default:
-			foeChoiceElement.innerHTML = "";
-		}
+		//Play animation here
+		GamePage.animateFoe(foeChoiceElement, 900);
 
-		if (GamePage.getWinner(choice, aiChoice) > 0) {
-			//User wins
-			this._playerScore++;
-			this.refreshScore("user");
-			return;
-		} 
-		if (GamePage.getWinner(choice,aiChoice) < 0) {
-			//Computer wins
-			this._computerScore++;
-			this.refreshScore("ai");
-			return;
-		} else {
-			this._computerScore++;
-			this._playerScore++;
-			this.refreshScore("tie");
-		}
+		setTimeout(function() {
+			switch(aiChoice) {
+				case "scissors":
+				foeChoiceElement.innerHTML = scissorsIcon;
+				break;
+				case "paper":
+				foeChoiceElement.innerHTML = paperIcon;
+				break;
+				case "rock":
+				foeChoiceElement.innerHTML = rockIcon;
+				break;
+				default:
+				foeChoiceElement.innerHTML = "";
+			}
+
+			if (GamePage.getWinner(choice, aiChoice) > 0) {
+				self._playerScore++;
+				self.refreshScore("user");
+				return;
+			} 
+			if (GamePage.getWinner(choice,aiChoice) < 0) {
+				self._computerScore++;
+				self.refreshScore("ai");
+				return;
+			} else {
+				self._computerScore++;
+				self._playerScore++;
+				self.refreshScore("tie");
+			}
+		}, 900);
 	}
 	static getComputerChoice() {
 		let random = Math.random();
@@ -187,6 +191,26 @@ class GamePage extends Page {
 		if (winner == "ai" || winner == "tie") {
 			Page.animateNode(this._pageID.querySelector(".computerScoreBlock"), "bounceAnim");
 		}
+	}
+	static animateFoe(domFoeELement, animationTime) {
+		let counter = 0;
+		let last = "";
+		let current = "";
+
+		setTimeout(function anim() {
+			counter += 100;
+
+			do {
+				current = GamePage.getComputerChoice() + "Icon";
+			} while(current == last);
+
+			domFoeELement.innerHTML = window[current];
+			last = current;
+
+			if (counter < animationTime - 100) {
+				setTimeout(anim, 100);
+			}
+		}, 100);
 	}
 	showUserPrediction(prediction) {
 		var videoInput = this._pageID.querySelector(".videoInput");

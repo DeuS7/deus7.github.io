@@ -67,7 +67,7 @@ class Page {
 
 		setTimeout(() => {
 			node.classList.add(newClass);
-		}, 0);
+		}, 50);
 	}
 }
 
